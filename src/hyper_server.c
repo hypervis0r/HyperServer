@@ -1,6 +1,4 @@
-#include "hyper.h"
-#include <stdio.h>
-#include <errno.h>
+#include "hyper_server.h"
 
 void usage(void)
 {
