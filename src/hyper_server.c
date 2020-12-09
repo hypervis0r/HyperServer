@@ -1,5 +1,7 @@
 #include "hyper_server.h"
 
+int isConnected = 0;
+
 void print_ascii(void)
 {
     puts( 
@@ -69,77 +71,6 @@ GetArgs(
 	}
 	
     return result;
-}
-
-int command_handler(
-    SOCKET              sock,
-    char                *command
-)
-{
-    if (command == NULL)
-        return HYPER_FAILED;
-
-    size_t stArgsSize = 0;
-    char** args = GetArgs(command, ' ', &stArgsSize);
-    if (args == NULL)
-        return HYPER_FAILED;
-
-    for(unsigned int i = 0; i < sizeof(command_list); i++)
-    {
-        if (strcmp(command_list[i].command, command) == 0)
-        {
-            command_list[i].execute(sock, (const char**)args, stArgsSize);
-            free(args);
-            return HYPER_SUCCESS;
-        }
-    }
-
-    free(args);
-    return HYPER_FAILED;
-}
-
-void send_file(
-    SOCKET sock,
-    const char          **argv,
-    const size_t        argc
-)
-{
-    HYPERSTATUS hsResult = 0;
-    HYPERFILE hfFile = NULL;
-    unsigned long ulSize = 0;
-
-    if (argc < 2)
-        return;
-
-    hsResult = HyperReadFile(argv[1], &hfFile, &ulSize);
-    if (hsResult == HYPER_FAILED)
-        return;
-    
-    HyperSendStatus(sock, 200);
-
-    HyperSendFile(sock, &hfFile, ulSize);
-    
-    HyperMemFree(hfFile);
-}
-
-void 
-list_dir(
-    SOCKET              sock,
-    const char          **argv,
-    const size_t        argc)
-{
-    return;
-}
-
-void 
-client_quit(
-    SOCKET              sock,
-    const char          **argv,
-    const size_t        argc)
-{
-    puts("[!] Client disconnected");
-    isConnected = 0; 
-    return;
 }
 
 int main(int argc, char **argv)

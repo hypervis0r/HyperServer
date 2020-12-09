@@ -1,50 +1,22 @@
+#ifndef _HYPER_SERVER_H
+#define _HYPER_SERVER_H
+
 #define MAX_INPUT_BUFFER 1024
+
+#include "commands.h"
 
 #include <hyper.h>
 #include <stdio.h>
-#include <errno.h>
-#include <assert.h>
 
 void usage(void);
 
-void 
-send_file(
-    SOCKET              sock,
-    const char          **argv,
-    const size_t        argc
+char** 
+GetArgs(
+    char                *a_str, 
+    char                a_delim, 
+    size_t              *count
 );
 
-void 
-list_dir(
-    SOCKET              sock,
-    const char          **argv,
-    const size_t        argc
-);
+extern int isConnected;
 
-void
-client_quit(
-    SOCKET              sock,
-    const char          **argv,
-    const size_t        argc
-);
-
-typedef void(*FUNCPTR)(
-    SOCKET,
-    const char**,
-    const size_t
-);
-
-typedef struct _COMMAND
-{
-    const char          *command;
-    FUNCPTR             execute;
-} COMMAND, * PCOMMAND;
-
-
-COMMAND command_list[] = {
-    {"SEND", &send_file},
-    {"LIST", &list_dir},
-    {"QUIT", &client_quit}
-};
-
-int isConnected = 0;
+#endif
