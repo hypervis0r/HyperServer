@@ -47,3 +47,4 @@ COMMAND command_list[] = {
     {"QUIT", &client_quit}
 };
 
+int isConnected = 0;

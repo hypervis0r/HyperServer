@@ -1,6 +1,6 @@
 #include "hyper_server.h"
 
-void usage(void)
+void print_ascii(void)
 {
     puts( 
         "    __  __                     _____                               \n"
@@ -10,6 +10,12 @@ void usage(void)
         "/_/ /_/\\__  / ____/\\___/_/  /____/\\___/_/    |___/\\___/_/      \n"
         "      /____/_/                                                     \n"
     );
+
+}
+
+void usage(void)
+{
+    print_ascii();
     puts("Usage: hyper-server <PORT>");
 }
 
@@ -132,16 +138,18 @@ client_quit(
     const size_t        argc)
 {
     puts("[!] Client disconnected");
-    exit(HYPER_SUCCESS);
+    isConnected = 0; 
     return;
 }
 
 int main(int argc, char **argv)
 {
     HYPERSTATUS iResult = 0;
+    
     SOCKET sockServer = 0;
     SOCKET sockClient = 0;
     unsigned short usPort = 0;
+    
     char command[MAX_INPUT_BUFFER];
     
     if (argc < 2)
@@ -153,7 +161,9 @@ int main(int argc, char **argv)
     {
         usPort = (unsigned short)strtoul(argv[1], NULL, 0);
     }
-        
+    
+    print_ascii();
+
     iResult = HyperNetworkInit();
     if (iResult != HYPER_SUCCESS)
     {
@@ -172,31 +182,36 @@ int main(int argc, char **argv)
     else
         printf("[+] Hyper Server has been started\n");
 
-    iResult = HyperServerListen(sockServer, &sockClient);
-    if (iResult != HYPER_SUCCESS)
-    {
-        printf("[-] HyperServerListen failed\n");
-        return HYPER_FAILED;
-    }
-    else
-        printf("[+] Connection found\n");
-
     while (1)
     {
-        memset(command, 0, MAX_INPUT_BUFFER);
-
-        iResult = HyperReceiveCommand(sockClient, command, MAX_INPUT_BUFFER);
+        isConnected = 0;
+        iResult = HyperServerListen(sockServer, &sockClient);
         if (iResult != HYPER_SUCCESS)
         {
-            printf("[-] HyperRecieveCommand failed\n");
+            printf("[-] HyperServerListen failed\n");
             return HYPER_FAILED;
         }
         else
-            printf("[+] Command recieved. %s\n", command);
+            printf("[*] Client connected\n");
 
-        command_handler(sockClient, command);
+        isConnected = 1;
+        while (isConnected == 1)
+        {
+            memset(command, 0, MAX_INPUT_BUFFER);
+
+            iResult = HyperReceiveCommand(sockClient, command, MAX_INPUT_BUFFER);
+            if (iResult != HYPER_SUCCESS)
+            {
+                printf("[-] HyperRecieveCommand failed\n");
+                return HYPER_FAILED;
+            }
+            else
+                printf("[+] Command recieved. %s\n", command);
+
+            command_handler(sockClient, command);
+        }
     }
-    
+        
     HyperCloseSocket(sockServer);
     HyperCloseSocket(sockClient);
     HyperSocketCleanup();
