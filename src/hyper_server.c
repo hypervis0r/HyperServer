@@ -185,7 +185,7 @@ int main(int argc, char **argv)
     {
         memset(command, 0, MAX_INPUT_BUFFER);
 
-        iResult = HyperRecieveCommand(sockClient, command, MAX_INPUT_BUFFER);
+        iResult = HyperReceiveCommand(sockClient, command, MAX_INPUT_BUFFER);
         if (iResult != HYPER_SUCCESS)
         {
             printf("[-] HyperRecieveCommand failed\n");
