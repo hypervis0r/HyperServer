@@ -54,6 +54,20 @@ HyperReadFile(
     size_t              *lpFileSize
 );
 
+HYPERSTATUS
+HyperWriteFileC(
+    FILE                *pFile,
+    const HYPERFILE     hfBuffer,
+    const size_t        stFileSize
+);
+
+HYPERSTATUS
+HyperWriteFile(
+    const char          *cpFilePath,
+    const HYPERFILE     hfBuffer,
+    const size_t        stFileSize
+);
+
 HYPERSTATUS 
 HyperRecieveFile(
     const SOCKET        sockServer, 

@@ -1,6 +1,8 @@
 #ifndef _NETWORK_H
 #define _NETWORK_H
 
+#define CONNECTION_CLOSED   0
+
 #ifdef _WIN32
     #define _WINSOCK_DEPRECATED_NO_WARNINGS // Make WinSock STFU
     #include <winsock2.h> 
@@ -33,7 +35,7 @@ HyperNetworkInit(void);
 HYPERSTATUS
 HyperCloseSocket(
     SOCKET              sock
-    );
+);
 
 HYPERSTATUS 
 HyperSocketCleanup(void);
@@ -41,37 +43,50 @@ HyperSocketCleanup(void);
 HYPERSTATUS
 HyperSocket(
     SOCKET              *sock
-    );
+);
 
 HYPERSTATUS
 HyperConnectServer(
     SOCKET              *sock, 
     const char          *cpServerIP, 
     const unsigned short usPort
-    );
+);
 
 HYPERSTATUS
 HyperStartServer(
     SOCKET              *sock, 
     const unsigned short usPort
-    );
+);
 
 HYPERSTATUS
 HyperServerListen(
     const SOCKET        sockServer, 
     SOCKET              *sockClient
-    );
+);
 
 HYPERSTATUS
 HyperRecieveCommand(
     const SOCKET        sock, 
-    char                **cpCommand
-    );
+    char                *cpCommand,
+    size_t              stMaxCommandLength
+);
 
 HYPERSTATUS
 HyperSendCommand(
     const SOCKET        sock, 
     const char          *cpCommand
-    );
+);
+
+HYPERSTATUS
+HyperSendStatus(
+    const SOCKET         sock,
+    const unsigned short status
+);
+
+HYPERSTATUS
+HyperRecieveStatus(
+    const SOCKET        sock,
+    unsigned short      *status
+);
 
 #endif
