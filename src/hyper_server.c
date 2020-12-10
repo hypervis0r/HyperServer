@@ -73,6 +73,21 @@ GetArgs(
     return result;
 }
 
+void server_init(void)
+{
+    char hostedDir[] = "hosted";
+
+    if (mkdir(hostedDir, 0700) == 0 || errno == EEXIST)
+        chdir(hostedDir);
+    else
+    {
+        puts("[-] Couldn't make hosted directory");
+        return;
+    }
+
+    return;
+}
+
 int main(int argc, char **argv)
 {
     HYPERSTATUS iResult = 0;
@@ -94,6 +109,8 @@ int main(int argc, char **argv)
     }
     
     print_ascii();
+
+    server_init();
 
     iResult = HyperNetworkInit();
     if (iResult != HYPER_SUCCESS)
