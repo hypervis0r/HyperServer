@@ -69,7 +69,7 @@ void send_file(
     hsResult = HyperReadFile(cpFilePath, &hfFile, &ulSize);
     if (hsResult == HYPER_FAILED)
     {
-        HyperSendStatus(sock, 404);
+        HyperSendStatus(sock, 400);
         return;
     }
     
