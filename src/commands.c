@@ -5,6 +5,7 @@ COMMAND command_list[3] = {
     {"LIST", &list_dir},
     {"QUIT", &client_quit}
 };
+unsigned int numCommands = 3;
 
 int command_handler(
     SOCKET              sock,
@@ -19,7 +20,7 @@ int command_handler(
     if (args == NULL)
         return HYPER_FAILED;
 
-    for(unsigned int i = 0; i < sizeof(command_list); i++)
+    for(unsigned int i = 0; i < sizeof(command_list)-1; i++)
     {
         if (strcmp(command_list[i].command, command) == 0)
         {
