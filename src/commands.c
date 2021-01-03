@@ -87,7 +87,7 @@ list_dir(
     const char          **argv,
     const size_t        argc)
 {
-    
+    /* Unimplemented for now */
 }
 
 void 
