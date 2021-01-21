@@ -87,9 +87,6 @@ list_dir(
     const char          **argv,
     const size_t        argc)
 {
-<<<<<<< HEAD
-    /* Unimplemented for now */
-=======
     DIR *dpDir = NULL;
     struct dirent *entry = {0};
     struct stat st = {0};
@@ -152,7 +149,6 @@ list_dir(
         HyperSendStatus(sock, 404);
         return;
     }
->>>>>>> Added LIST command | probably some other stuff too idfk
 }
 
 void 
