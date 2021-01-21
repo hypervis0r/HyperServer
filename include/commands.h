@@ -3,12 +3,17 @@
 
 #define SERVER_MAX_PATH 4096 /* I have issues with limits.h so fml */
 
+/* File Perm Masks */
+#define S_DIR   01
+
 #include "hyper_server.h"
 
 #include <hyper.h>
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+#include <dirent.h>
+#include <sys/stat.h>
 
 int 
 command_handler(
