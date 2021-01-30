@@ -20,7 +20,7 @@ int command_handler(
     if (args == NULL)
         return HYPER_FAILED;
 
-    for(unsigned int i = 0; i < sizeof(command_list)-1; i++)
+    for(unsigned int i = 0; i < numCommands; i++)
     {
         if (strcmp(command_list[i].command, command) == 0)
         {
