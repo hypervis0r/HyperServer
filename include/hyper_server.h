@@ -5,7 +5,9 @@
 
 #include "commands.h"
 
+#define HYPER_IMPLEMENTATION
 #include <hyper.h>
+
 #include <stdio.h>
 #include <sys/types.h>
 #include <sys/stat.h>

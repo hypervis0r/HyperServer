@@ -8,6 +8,7 @@
 
 #include "hyper_server.h"
 
+#define HYPER_IMPLEMENTATION
 #include <hyper.h>
 #include <stdio.h>
 #include <string.h>
